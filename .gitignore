@@ -28,6 +28,7 @@ dist/
 
 .nvmrc
 
+keys.js
 
 .env
 .env.dev
