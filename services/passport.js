@@ -5,6 +5,19 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 const User = mongoose.model("users");
 
+//grabs the user model instance that's passed in the callback
+//which passport will then be turned into a cookie
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+//takes the serialized user from the cookie and turns it back into a user model
+passport.deserializeUser((id, done) => {
+  User.findById(id).then(user => {
+    done(null, user);
+  });
+});
+
 passport.use(
   new GoogleStrategy(
     {
