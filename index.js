@@ -12,11 +12,22 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: process.env.GOOGLE_CALLBACK_URL //route user sent to after they grant permissions
     },
-    accessToken => {
+    (accessToken, refreshToken, profile, done) => {
       console.log("in index.js accessToken:", accessToken);
+      console.log("in index.js accessToken:", refreshToken);
+      console.log("in index.js accessToken:", profile);
     }
   )
 );
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"]
+  })
+);
+
+app.get("/auth/google/callback", passport.authenticate("google"));
 
 app.get("/", (req, res) => {
   res.send({ hi: "there" });
