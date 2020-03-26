@@ -20,6 +20,8 @@ app.use(
     keys: [process.env.COOKIE_KEY]
   })
 );
+
+//end result is User model instance is added to the req.user
 app.use(passport.initialize());
 app.use(passport.session());
 
