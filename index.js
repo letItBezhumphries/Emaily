@@ -1,33 +1,20 @@
 const express = require("express");
-const passport = require("passport");
+const mongoose = require("mongoose");
 require("dotenv").config();
+//this or just require
+// const passportConfig = require('./services/passport');
+require("./models/User"); //needs to be before requiring and running passport.js
+require("./services/passport");
+const authRoutes = require("./routes/authRoutes");
 
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+mongoose.connect(process.env.MONGO_URI);
+
 const app = express();
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL //route user sent to after they grant permissions
-    },
-    (accessToken, refreshToken, profile, done) => {
-      console.log("in index.js accessToken:", accessToken);
-      console.log("in index.js accessToken:", refreshToken);
-      console.log("in index.js accessToken:", profile);
-    }
-  )
-);
-
-app.get(
-  "/auth/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"]
-  })
-);
-
-app.get("/auth/google/callback", passport.authenticate("google"));
+//then make sure to call authRoutes and pass in app
+authRoutes(app);
+//or could just require the authRoutes file and invoke it with app passed in
+// require('./routes/authRoutes')(app);
 
 app.get("/", (req, res) => {
   res.send({ hi: "there" });

@@ -31,5 +31,5 @@ dist/
 keys.js
 
 .env
-.env.dev
-.env.production
+
+
