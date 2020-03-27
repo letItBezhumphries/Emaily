@@ -28,8 +28,8 @@ dist/
 
 .nvmrc
 
-keys.js
+dev.js
 
 .env
-
+.env.production
 
