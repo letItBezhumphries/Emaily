@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-require("./config/keys");
+const keys = require("./config/keys");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 //this or just require
@@ -9,7 +9,7 @@ require("./models/User"); //needs to be before requiring and running passport.js
 require("./services/passport");
 const authRoutes = require("./routes/authRoutes");
 
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(keys.MONGO_URI);
 
 const app = express();
 
@@ -17,7 +17,7 @@ const app = express();
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: [process.env.COOKIE_KEY]
+    keys: [keys.COOKIE_KEY]
   })
 );
 
