@@ -9,7 +9,7 @@ require("./models/User"); //needs to be before requiring and running passport.js
 require("./services/passport");
 const authRoutes = require("./routes/authRoutes");
 
-mongoose.connect(keys.MONGO_URI);
+mongoose.connect(keys.mongoURI);
 
 const app = express();
 
