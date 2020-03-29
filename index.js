@@ -37,7 +37,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//then make sure to call authRoutes and pass in app
+//then make sure to call authRoutes and immediately invoke it with app passed in
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
 

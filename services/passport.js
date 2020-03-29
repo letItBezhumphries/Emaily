@@ -6,7 +6,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = mongoose.model("users");
 
 //grabs the user model instance that's passed in the callback
-//which passport will then be turned into a cookie
+//which passport will then turn into a cookie
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
@@ -23,7 +23,7 @@ passport.use(
     {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      callbackURL: "/auth/google/callback", //route user sent to after they grant permissions
+      callbackURL: "/auth/google/callback", //this will be endpoint user is sent to after they grant permission
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
