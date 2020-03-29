@@ -7,17 +7,26 @@ const passport = require("passport");
 // const passportConfig = require('./services/passport');
 require("./models/User"); //needs to be before requiring and running passport.js
 require("./services/passport");
-const authRoutes = require("./routes/authRoutes");
+// const authRoutes = require("./routes/authRoutes");
 
 mongoose.connect(keys.mongoURI);
 
 const app = express();
 
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin"); // update to match the domain you will make the request from
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
+
 //middleware
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: [keys.COOKIE_KEY]
+    keys: [keys.cookieKey]
   })
 );
 
@@ -26,13 +35,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //then make sure to call authRoutes and pass in app
-authRoutes(app);
+require("./routes/authRoutes")(app);
 //or could just require the authRoutes file and invoke it with app passed in
 // require('./routes/authRoutes')(app);
-
-app.get("/", (req, res) => {
-  res.send({ hi: "there" });
-});
 
 const PORT = process.env.PORT || 5006;
 
