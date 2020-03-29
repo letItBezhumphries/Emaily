@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const keys = require("./config/keys");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
+const bodyParser = require("body-parser");
 //this or just require
 // const passportConfig = require('./services/passport');
 require("./models/User"); //needs to be before requiring and running passport.js
@@ -23,6 +24,8 @@ const app = express();
 // });
 
 //middleware
+app.use(bodyParser.json());
+
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -36,8 +39,7 @@ app.use(passport.session());
 
 //then make sure to call authRoutes and pass in app
 require("./routes/authRoutes")(app);
-//or could just require the authRoutes file and invoke it with app passed in
-// require('./routes/authRoutes')(app);
+require("./routes/billingRoutes")(app);
 
 const PORT = process.env.PORT || 5006;
 

@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import Payments from "./Payments";
 
 class Navbar extends Component {
   renderContent = () => {
@@ -14,11 +15,14 @@ class Navbar extends Component {
           </li>
         );
       default:
-        return (
-          <li>
+        return [
+          <li key="1">
+            <Payments />
+          </li>,
+          <li key="2">
             <a href="/api/logout">Logout</a>
           </li>
-        );
+        ];
     }
   };
   render() {
