@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 //this or just require
 // const passportConfig = require('./services/passport');
 require("./models/User"); //needs to be before requiring and running passport.js
+require("./models/Survey");
 require("./services/passport");
 // const authRoutes = require("./routes/authRoutes");
 
