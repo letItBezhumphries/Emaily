@@ -41,6 +41,7 @@ app.use(passport.session());
 //then make sure to call authRoutes and immediately invoke it with app passed in
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
+require("./routes/surveyRoutes")(app);
 
 if (process.env.NODE_ENV === "production") {
   //serve production assets
