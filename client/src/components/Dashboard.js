@@ -1,10 +1,17 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const Dashboard = props => {
-  return <div>Dashboard</div>;
+  return (
+    <div>
+      Dashboard
+      <div className="fixed-action-btn">
+        <Link to="/survey/new" className="btn-floating btn-large red">
+          <i className="material-icons">add</i>
+        </Link>
+      </div>
+    </div>
+  );
 };
-
-Dashboard.propTypes = {};
 
 export default Dashboard;

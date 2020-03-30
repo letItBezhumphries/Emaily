@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import Landing from "./Landing";
 import * as actions from "../actions";
 import Dashboard from "./Dashboard";
-import SurveyNew from "./SurveyNew";
+import SurveyNew from "./surveys/SurveyNew";
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
