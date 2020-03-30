@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/requireLogin");
 const requireCredits = require("../middlewares/requireCredits");
+const Mailer = require("../services/Mailer");
+const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
 
 const Survey = mongoose.model("surveys");
 
 /**
- * "email@example.com, another@email.com, ..."
-    split this string of email addresses and get array of strings 
-    map of the array of strings and return a new object { email: "email@example.com" }
-    return and array of objects 
+
+
  */
 
 module.exports = app => {
@@ -23,5 +23,7 @@ module.exports = app => {
       _user: req.user.id,
       dateSent: Date.now()
     });
+
+    const mailer = new Mailer(survey, surveyTemplate(survey));
   });
 };
