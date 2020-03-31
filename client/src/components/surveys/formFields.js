@@ -1,6 +1,6 @@
 export default [
   {
-    label: "Survey Title",
+    label: "Campaign Title",
     name: "title",
     noValueError: "Provide a Survey Title"
   },
@@ -10,5 +10,9 @@ export default [
     noValueError: "Provide a Subject Line"
   },
   { label: "Email Body", name: "body", noValueError: "Provide an Email Body" },
-  { label: "Recipient List", name: "emails", noValueError: "Provide an Email" }
+  {
+    label: "Recipient List",
+    name: "recipients",
+    noValueError: "Provide an Email"
+  }
 ];
