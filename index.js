@@ -9,20 +9,11 @@ const bodyParser = require("body-parser");
 require("./models/User"); //needs to be before requiring and running passport.js
 require("./models/Survey");
 require("./services/passport");
-// const authRoutes = require("./routes/authRoutes");
 
+mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongoURI);
 
 const app = express();
-
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin"); // update to match the domain you will make the request from
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
 
 //middleware
 app.use(bodyParser.json());
