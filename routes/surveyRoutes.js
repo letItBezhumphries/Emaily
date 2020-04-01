@@ -1,3 +1,6 @@
+const _ = require("lodash");
+const Path = require("path-parser");
+const { URL } = require("url");
 const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/requireLogin");
 const requireCredits = require("../middlewares/requireCredits");
@@ -13,7 +16,26 @@ module.exports = app => {
   });
 
   app.post("/api/surveys/webhooks", (req, res) => {
-    console.log("inside webhook-req.body:", req.body);
+    const pathParts = new Path("/api/surveys/:surveyId/:choice");
+
+    const events = _.chain(req.body)
+      .map(({ email, url }) => {
+        //grab only the path portion --not the domain, only path
+        const match = pathParts.test(new URL(url).pathname);
+        if (match) {
+          return {
+            email: email,
+            surveyId: match.surveyId,
+            choice: match.choice
+          };
+        }
+      })
+      .compact()
+      .uniqBy("email", "surveyId")
+      .value();
+
+    console.log("in webhook => no duplicates:", events);
+
     res.send({});
   });
 
