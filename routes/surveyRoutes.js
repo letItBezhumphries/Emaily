@@ -18,7 +18,7 @@ module.exports = app => {
   app.post("/api/surveys/webhooks", (req, res) => {
     const pathParts = new Path("/api/surveys/:surveyId/:choice");
 
-    const events = _.chain(req.body)
+    _.chain(req.body)
       .map(({ email, url }) => {
         //grab only the path portion --not the domain, only path
         const match = pathParts.test(new URL(url).pathname);
@@ -32,9 +32,21 @@ module.exports = app => {
       })
       .compact()
       .uniqBy("email", "surveyId")
+      .each(({ surveyId, email, choice }) => {
+        Survey.updateOne(
+          {
+            _id: surveyId,
+            recipients: {
+              $elemMatch: { email: email, responded: false }
+            }
+          },
+          {
+            $inc: { [choice]: 1 },
+            $set: { "recipients.$.responded": true }
+          }
+        ).exec();
+      })
       .value();
-
-    console.log("in webhook => no duplicates:", events);
 
     res.send({});
   });
