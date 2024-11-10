@@ -1,55 +1,35 @@
-const sendGrid = require("sendgrid");
-const helper = sendGrid.mail;
+const mailgun = require("mailgun-js");
 const keys = require("../config/keys");
 
-class Mailer extends helper.Mail {
+class Mailer {
   constructor({ subject, recipients }, content) {
-    super();
-
-    this.sgApi = sendGrid(keys.sendGridKey);
-    this.from_email = new helper.Email("no-reply@emaily.com");
-    this.subject = subject;
-    this.body = new helper.Content("text/html", content);
-    this.recipients = this.formatAddresses(recipients);
-
-    this.addContent(this.body);
-    //enable click tracking
-    this.addClickTracking();
-    this.addRecipients();
+    this.mailgun = mailgun({
+      apiKey: keys.mailgunKey,
+      domain: keys.mailgunDomain,
+    });
+    this.data = {
+      from: "REPLACE_WITH_YOUR_MAILGUN_EMAIL",
+      to: this.formatAddresses(recipients),
+      subject: subject,
+      html: content,
+      "o:tracking-clicks": true,
+    };
   }
 
   formatAddresses(recipients) {
-    return recipients.map(({ email }) => {
-      return new helper.Email(email);
-    });
-  }
-
-  addClickTracking() {
-    const trackingSettings = new helper.TrackingSettings();
-    const clickTracking = new helper.ClickTracking(true, true);
-
-    trackingSettings.setClickTracking(clickTracking);
-    this.addTrackingSettings(trackingSettings);
-  }
-
-  //adds each email/recipient to the personlize object
-  addRecipients() {
-    const personalize = new helper.Personalization();
-    this.recipients.forEach(recipient => {
-      personalize.addTo(recipient);
-    });
-    this.addPersonalization(personalize);
+    return recipients.map(({ email }) => email).join(",");
   }
 
   async send() {
-    const request = this.sgApi.emptyRequest({
-      method: "POST",
-      path: "/v3/mail/send",
-      body: this.toJSON()
+    return new Promise((resolve, reject) => {
+      this.mailgun.messages().send(this.data, (error, body) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(body);
+        }
+      });
     });
-
-    const response = await this.sgApi.API(request);
-    return response;
   }
 }
 

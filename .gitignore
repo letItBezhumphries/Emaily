@@ -30,6 +30,7 @@ dist/
 
 dev.js
 
-.env
+*.env
 .env.production
 
+NOTES.md

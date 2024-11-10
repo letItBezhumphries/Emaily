@@ -1,11 +1,9 @@
 import React from "react";
 
-export default ({ input, label, meta: { error, touched }, ...props }) => {
-  console.log("props :", props);
-
+const SurveyField = ({ input, label, meta: { error, touched } }) => {
   return (
     <div>
-      <label htmlFor="">{label}</label>
+      <label>{label}</label>
       <input {...input} style={{ marginBottom: "5px" }} />
       <div className="red-text" style={{ marginBottom: "20px" }}>
         {touched && error}
@@ -13,3 +11,5 @@ export default ({ input, label, meta: { error, touched }, ...props }) => {
     </div>
   );
 };
+
+export default SurveyField;
