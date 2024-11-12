@@ -8,6 +8,7 @@ const User = mongoose.model("users");
 //grabs the user model instance that's passed in the callback
 //which passport will then turn into a cookie
 passport.serializeUser((user, done) => {
+  console.log('serialize user -> user:', user);
   done(null, user.id);
 });
 
@@ -17,6 +18,8 @@ passport.deserializeUser((id, done) => {
     done(null, user);
   });
 });
+
+
 
 passport.use(
   new GoogleStrategy(
@@ -28,18 +31,18 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log("in index.js accessToken:", accessToken);
-      console.log("in index.js accessToken:", refreshToken);
-      console.log("in index.js accessToken:", profile);
+      console.log("in index.js refreshToken:", refreshToken);
+      console.log("in index.js profileToken:", profile);
 
       const existingUser = await User.findOne({ googleId: profile.id });
+
       if (existingUser) {
-        //user exists already
         return done(null, existingUser);
-      } else {
-        const user = await new User({ googleId: profile.id })
-          .save()
-          .done(null, user);
       }
+
+      const user = await new User({ googleId: profile.id }).save();
+      done(null, user);
+      
     }
   )
 );

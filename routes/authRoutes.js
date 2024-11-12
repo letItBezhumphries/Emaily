@@ -2,7 +2,7 @@ const passport = require("passport");
 //way to get the app constant from index.js to be available in this file is use module.exports
 
 //create arrow function and export it from this file
-module.exports = app => {
+module.exports = (app) => {
   app.get(
     "/auth/google",
     passport.authenticate("google", {
@@ -12,7 +12,9 @@ module.exports = app => {
 
   app.get(
     "/auth/google/callback",
-    passport.authenticate("google"),
+    passport.authenticate("google", {
+      keepSessionInfo: true
+    }),
     (req, res) => {
       res.redirect("/surveys");
     }
@@ -25,6 +27,7 @@ module.exports = app => {
   });
 
   app.get("/api/current_user", (req, res) => {
+    console.log('req.user:', req.user);
     res.send(req.user);
   });
 };
