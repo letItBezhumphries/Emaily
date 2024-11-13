@@ -3,6 +3,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useDispatch } from "react-redux";
 import { handleToken } from "../store/slices/authSlice";
 
+let stripeKey = import.meta.env.VITE_STRIPE_KEY;
+
+console.log('stripekey:', stripeKey);
+
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
 const Payments = () => {
