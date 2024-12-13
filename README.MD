@@ -1,32 +1,76 @@
-authReducer -- records whether user is logged in or not
+# Project Name
 
-surveyReducer -- records a list of all surveys user has created
+> Emaily
 
-GET /api/surveys -- Return a list of surveys created by the current users
+FullStack web application that allows users to engage with customers to create surveys
+and send mass emails to a big list of users for the purpose of collecting feedback.
 
-POST /api/surveys/webhooks -- Record feedback for a user
+Technology used -
 
-POST /api/surveys -- Create a new survey and send out mass email
+React, Redux, Express, and MongoDB, mongoose, Google OAuth, PassportJs, MailgunJs, StripeJs
 
-- "email@example.com, another@email.com, ..."
-  split this string of email addresses and get array of strings
-  map over the array of string emails and for each email return a new object, like so { email: "email@example.com" }
-  return the array of objects
+<img src="./Emaily_form.png">
+<img src="./Emaily_landing.png">
+<img src="./Emaily_payment-stripeform.png">
 
-  1. create new instance of Survey
-  2. attempt to create and send mass email
-  3. check if email was sent successfully?
-  4. save the survey
-  5. send back the survey or send back success message
+## Table of Contents
 
-* tell sendgrid to send an email
+- [Project Name](#project-name)
+  - [Table of Contents](#table-of-contents)
+  - [Requirements](#requirements)
+    - [Env Variables](#env-variables)
+    - [Install Dependencies (frontend \& backend)](#install-dependencies-frontend--backend)
+    - [Run](#run)
+    - [Build \& Deploy](#build--deploy)
+    - [Seed Database](#seed-database)
 
-  - sendgrid scans the email and replaces every link with an special link / route to their server
-  - sendgrid knows who the recipient of every email is, because the links they inject contain a token that identifies the user
-  - user clicks a link
-  - sendgrid has the token that identifies the user and the user is sent to the sendgrid server and then sendgrid sends a message to our server telling us about the click event
+## Requirements
 
-  basically an event system
-  and this again is dealing with a webhook
+- Node 0.10.x
+- Mongo Atlas account, and free-tier Cluster
+- Create a MongoDB database and obtain your `MongoDB URI` - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
+- Google Client Id
+- Google Client secret key
+- Create a Stripe Account to attain a publishable key and secret key
+- Signup for a Mailgun account: Use the link here to register: (https://signup.mailgun.com/new/signup)
 
+### Env Variables
 
+create a file in the root of your project directory `.env` and add the following
+
+```
+PORT=the port of your choosing
+
+MONGO_URI=mongodb+srv://[username]:....@....mongodb.net/?retryWrites=true&w=majority&appName=Clusters
+
+COOKIE_KEY=some string of your choosing
+GOOGLE_CLIENT_ID=......apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=the secret google provides you
+GOOGLE_CALLBACK_URL=/auth/google/callback
+
+STRIPE_PUBLISHABLE=pk_test_....your publishable key
+STRIPE_SECRET_KEY=sk_test_....your secret key
+
+MAILGUN_KEY=...your mailgun key
+MAILGUN_DOMAIN=sandbox.......mailgun.org
+```
+
+### Install Dependencies (frontend & backend)
+
+```
+# from project directory
+npm install
+cd frontend
+npm install
+```
+
+### Run
+
+```
+# Run frontend (:5173) & backend (:5006) for development
+npm run dev
+# Run backend only
+npm run start
+# Run frontend only 
+npm run client
+```
