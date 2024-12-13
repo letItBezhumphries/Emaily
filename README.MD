@@ -1,6 +1,4 @@
-# Project Name
-
-> Emaily
+# Emaily
 
 FullStack web application that allows users to engage with customers to create surveys
 and send mass emails to a big list of users for the purpose of collecting feedback.
